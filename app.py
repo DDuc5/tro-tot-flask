@@ -4,7 +4,8 @@ from firebase_admin import credentials, firestore, auth
 import os
 import json
 
-# --- THAY THẾ ĐOẠN KHỞI TẠO FIREBASE CŨ BẰNG ĐOẠN NÀY ---
+app = Flask(__name__)
+app.secret_key = 'tro_tot_secret_key_123'
 firebase_credentials = os.environ.get('FIREBASE_CREDENTIALS')
 
 if not firebase_admin._apps:
