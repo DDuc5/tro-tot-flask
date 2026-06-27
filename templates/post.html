@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng tin mới - Trọ Tốt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background-color: #e0f7fa;">
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav class="glass-navbar">
+        <div class="header-left">
+            <a href="/" style="text-decoration: none;"><div class="logo">Trọ Tốt</div></a>
+        </div>
+        <div class="header-right">
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name={{ user.display_name }}&background=00acc1&color=fff" class="avatar-img" style="width:35px; height:35px;">
+                <span style="margin-left: 10px; font-weight: bold; color: #00838f;">{{ user.display_name }}</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="post-layout container">
+        <aside class="post-sidebar glass-card">
+            <h3 style="color: #006064; margin-bottom: 15px;"><i class="fas fa-lightbulb" style="color: #ffb300;"></i> Mẹo chốt phòng nhanh!</h3>
+            <ul class="tips-list">
+                <li><i class="fas fa-check"></i> Đăng tối thiểu <strong>3 ảnh thật</strong>, sáng sủa.</li>
+                <li><i class="fas fa-check"></i> Mô tả chi tiết giờ giấc, nội thất.</li>
+                <li><i class="fas fa-check"></i> Điền đúng giá thuê và tiền cọc để tránh bị khóa bài.</li>
+                <li><i class="fas fa-check"></i> Chọn chính xác Phường/Xã để tin hiển thị gần người thuê nhất.</li>
+            </ul>
+        </aside>
+
+        <main class="post-main glass-card">
+            <h2 class="form-main-title">Thông tin phòng trọ</h2>
+            
+            <form id="listingForm" action="/post" method="POST" enctype="multipart/form-data">
+                
+                <div class="form-section">
+                    <label class="section-label">Phân loại phòng <span class="required">*</span></label>
+                    <div class="radio-pills">
+                        <input type="radio" name="room_type" id="rt1" value="Phòng trọ" checked hidden>
+                        <label for="rt1"><i class="fas fa-door-open"></i> Phòng trọ</label>
+                        
+                        <input type="radio" name="room_type" id="rt2" value="Nhà nguyên căn" hidden>
+                        <label for="rt2"><i class="fas fa-home"></i> Nhà nguyên căn</label>
+                        
+                        <input type="radio" name="room_type" id="rt3" value="Căn hộ mini" hidden>
+                        <label for="rt3"><i class="fas fa-building"></i> Căn hộ mini</label>
+
+                        <input type="radio" name="room_type" id="rt4" value="Ở ghép" hidden>
+                        <label for="rt4"><i class="fas fa-users"></i> Tìm người ở ghép</label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="section-label">Hình thức giao dịch <span class="required">*</span></label>
+                    <div class="radio-pills">
+                        <input type="radio" name="transaction_type" id="tt1" value="Cho thuê" checked hidden>
+                        <label for="tt1">Cho thuê mới</label>
+                        
+                        <input type="radio" name="transaction_type" id="tt2" value="Nhượng phòng" hidden>
+                        <label for="tt2">Nhượng lại phòng</label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="section-label">Khu vực & Địa chỉ <span class="required">*</span></label>
+                    <div class="address-grid">
+                        <select id="selProv" name="province" onchange="fetchDistrictsPost(this.value)" required>
+                            <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                        </select>
+                        <select id="selDist" name="district" onchange="fetchWardsPost(this.value)" required disabled>
+                            <option value="">-- Chọn Quận/Huyện --</option>
+                        </select>
+                        <select id="selWard" name="ward" required disabled>
+                            <option value="">-- Chọn Phường/Xã --</option>
+                        </select>
+                    </div>
+                    <input type="text" name="street" class="full-input" placeholder="Số nhà, tên đường (VD: 123 Ung Văn Khiêm)" style="margin-top: 15px;" required>
+                </div>
+
+                <div class="form-section">
+                    <label class="section-label">Thông số cơ bản <span class="required">*</span></label>
+                    <div class="specs-grid">
+                        <div class="input-with-unit">
+                            <input type="number" name="area" placeholder="Diện tích sử dụng" required>
+                            <span class="unit">m²</span>
+                        </div>
+                        <select name="furnishing" class="full-input">
+                            <option value="Trống">Phòng trống</option>
+                            <option value="Cơ bản">Nội thất cơ bản (Quạt, Đèn, Kệ bếp)</option>
+                            <option value="Đầy đủ">Full nội thất (Giường, Tủ, Máy lạnh...)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="section-label">Kho lưu trữ hình ảnh <span class="required">*</span></label>
+                    <div class="upload-area" onclick="document.getElementById('fileUpload').click()">
+                        <i class="fas fa-cloud-upload-alt fa-3x" style="color: #00acc1;"></i>
+                        <h4>Bấm để tải ảnh lên</h4>
+                        <p>Hỗ trợ định dạng JPG, PNG. Tối thiểu 3 ảnh.</p>
+                        <input type="file" id="fileUpload" name="images" multiple accept="image/*" hidden required>
+                    </div>
+                    <div id="imagePreviewContainer" class="image-preview-container"></div>
+                </div>
+
+                <div class="form-section">
+                    <label class="section-label">Nội dung hiển thị <span class="required">*</span></label>
+                    
+                    <input type="text" name="title" class="full-input" placeholder="Tiêu đề tin đăng (VD: Phòng trọ ban công thoáng mát, free xe...)" style="margin-bottom: 15px;" required>
+                    
+                    <div class="specs-grid" style="margin-bottom: 15px;">
+                        <div class="input-with-unit">
+                            <input type="number" name="price" placeholder="Giá thuê mỗi tháng" required>
+                            <span class="unit">VNĐ</span>
+                        </div>
+                        <div class="input-with-unit">
+                            <input type="number" name="deposit" placeholder="Số tiền cọc" required>
+                            <span class="unit">VNĐ</span>
+                        </div>
+                    </div>
+
+                    <textarea name="description" class="full-input" rows="6" placeholder="Mô tả chi tiết về giờ giấc, điện nước, tiện ích xung quanh..." required></textarea>
+                </div>
+
+                <div class="form-section" style="border-bottom: none;">
+                    <label class="section-label">Vai trò của bạn <span class="required">*</span></label>
+                    <div class="radio-pills">
+                        <input type="radio" name="role" id="role1" value="Chính chủ" checked hidden>
+                        <label for="role1">Chính chủ</label>
+                        
+                        <input type="radio" name="role" id="role2" value="Môi giới" hidden>
+                        <label for="role2">Môi giới</label>
+                    </div>
+                </div>
+
+                <div class="sticky-action-bar">
+                    <button type="button" class="btn-preview"><i class="far fa-eye"></i> Xem trước</button>
+                    <button type="submit" class="btn-submit-post">Tiếp tục & Thanh toán <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div id="packageModal" class="preview-modal">
+                    <div class="preview-modal-content glass-card" style="max-width: 600px; padding: 0; overflow: hidden;">
+                        <div style="background: #f4f6f8; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0; color: #333;"><i class="fas fa-list"></i> Chọn hạng tin đăng</h3>
+                            <span class="close-modal" onclick="closeModal('packageModal')" style="position: static; font-size: 24px;">&times;</span>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div class="package-options">
+                                <label class="pkg-card">
+                                    <input type="radio" name="pkg_type" value="Cơ bản" data-price="0" checked>
+                                    <div class="pkg-content">
+                                        <h4>Tin Cơ Bản</h4>
+                                        <p>Hiển thị bình thường trong danh sách.</p>
+                                        <span class="pkg-price">0 đ / ngày</span>
+                                    </div>
+                                </label>
+                                <label class="pkg-card">
+                                    <input type="radio" name="pkg_type" value="Trung bình" data-price="2000">
+                                    <div class="pkg-content" style="border-top: 3px solid #00acc1;">
+                                        <h4>Tin Trung Bình</h4>
+                                        <p>Tự động đẩy lên top 1 lần/ngày.</p>
+                                        <span class="pkg-price">2.000 đ / ngày</span>
+                                    </div>
+                                </label>
+                                <label class="pkg-card">
+                                    <input type="radio" name="pkg_type" value="Nâng cao" data-price="5000">
+                                    <div class="pkg-content" style="border-top: 3px solid #ff9800;">
+                                        <h4>Tin Nâng Cao <i class="fas fa-star" style="color:#ff9800;"></i></h4>
+                                        <p>Ghim trên cùng, nhãn nổi bật.</p>
+                                        <span class="pkg-price">5.000 đ / ngày</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <h4 style="margin: 20px 0 10px;">Thời gian hiển thị</h4>
+                            <div class="duration-options">
+                                <label><input type="radio" name="duration" value="7" checked> 7 ngày</label>
+                                <label><input type="radio" name="duration" value="14"> 14 ngày</label>
+                                <label><input type="radio" name="duration" value="30"> 30 ngày</label>
+                            </div>
+                        </div>
+                        <div style="background: #fff; padding: 15px 20px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                            <div>Tổng tiền: <strong id="totalPkgPrice" style="color: #d32f2f; font-size: 20px;">0 đ</strong></div>
+                            <button class="btn-submit-post" type="button" onclick="goToCheckout()">Tiếp tục <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="checkoutModal" class="preview-modal">
+                    <div class="preview-modal-content glass-card" style="max-width: 500px; padding: 0; overflow: hidden;">
+                        <div style="background: #f4f6f8; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0; color: #333;"><i class="fas fa-wallet"></i> Thanh toán đơn hàng</h3>
+                            <span class="close-modal" onclick="closeModal('checkoutModal')" style="position: static; font-size: 24px;">&times;</span>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div style="background: #fafafa; border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span id="summaryPkgName" style="font-weight: bold;">Tin Cơ Bản - 7 ngày</span>
+                                    <span id="summaryPrice" style="font-weight: bold; color: #d32f2f;">0 đ</span>
+                                </div>
+                                <div style="font-size: 13px; color: #666;">Sau khi hết hạn, hệ thống sẽ tự động ẩn tin.</div>
+                            </div>
+
+                            <h4 style="margin-bottom: 15px;">Chọn hình thức thanh toán</h4>
+                            <label class="payment-method-card active" id="payMethodXu">
+                                <div style="display: flex; align-items: center; gap: 15px; width: 100%;">
+                                    <i class="fas fa-coins fa-2x" style="color: #ffc107;"></i>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: bold;">Xu Trọ Tốt</div>
+                                        <div style="font-size: 13px; color: #888;">Số dư: <strong>0 Xu</strong></div>
+                                    </div>
+                                    <button class="btn-recharge-small" type="button" onclick="goToQRRecharge()">Nạp thêm</button>
+                                </div>
+                            </label>
+                            <label class="payment-method-card" style="opacity: 0.5; pointer-events: none;">
+                                <div style="display: flex; align-items: center; gap: 15px; width: 100%;">
+                                    <i class="fas fa-university fa-2x" style="color: #4caf50;"></i>
+                                    <div>
+                                        <div style="font-weight: bold;">Chuyển khoản trực tiếp</div>
+                                        <div style="font-size: 13px; color: #888;">(Đang bảo trì, vui lòng nạp Xu)</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div style="padding: 15px 20px; border-top: 1px solid #eee;">
+                            <button class="btn-submit-post" type="button" style="width: 100%; justify-content: center;" onclick="confirmFinalPost()">Thanh toán & Đăng tin</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="qrModal" class="preview-modal">
+                    <div class="preview-modal-content glass-card" style="max-width: 400px; text-align: center;">
+                        <span class="close-modal" onclick="closeModal('qrModal')">&times;</span>
+                        <h3 style="color: #00838f; margin-bottom: 10px;">Quét QR Nạp Xu</h3>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Mở App ngân hàng quét mã để nạp tự động 24/7</p>
+                        
+                        <img id="qrImage" src="" alt="Mã QR Thanh Toán" style="width: 100%; max-width: 250px; border: 2px solid #00acc1; border-radius: 12px; padding: 10px; margin-bottom: 15px;">
+                        
+                        <div style="background: #f0fbfc; padding: 15px; border-radius: 8px; text-align: left; font-size: 14px;">
+                            <div style="margin-bottom: 5px;">Ngân hàng: <strong>MB Bank</strong></div>
+                            <div style="margin-bottom: 5px;">Chủ tài khoản: <strong>TRAN DUY DUC</strong></div>
+                            <div style="margin-bottom: 5px;">Số tiền: <strong style="color: #d32f2f;" id="qrAmountShow">50.000 đ</strong></div>
+                            <div>Nội dung: <strong style="color: #00838f;" id="qrContentShow">NAPXU UID123</strong></div>
+                        </div>
+                        <p style="font-size: 12px; color: #888; margin-top: 15px;">(Hệ thống tự động cộng xu sau 1-3 phút)</p>
+                    </div>
+                </div>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('https://provinces.open-api.vn/api/p/')
+            .then(res => res.json())
+            .then(data => {
+                let html = '<option value="">-- Chọn Tỉnh/Thành phố --</option>';
+                data.forEach(p => { html += `<option value="${p.code}">${p.name}</option>`; });
+                document.getElementById('selProv').innerHTML = html;
+            });
+        });
+
+        function fetchDistrictsPost(provCode) {
+            const distSel = document.getElementById('selDist');
+            const wardSel = document.getElementById('selWard');
+            distSel.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+            wardSel.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+            wardSel.disabled = true;
+
+            if(!provCode) { distSel.disabled = true; return; }
+
+            distSel.disabled = false;
+            fetch(`https://provinces.open-api.vn/api/p/${provCode}?depth=2`)
+            .then(res => res.json())
+            .then(data => {
+                let html = '<option value="">-- Chọn Quận/Huyện --</option>';
+                data.districts.forEach(d => { html += `<option value="${d.code}">${d.name}</option>`; });
+                distSel.innerHTML = html;
+            });
+        }
+
+        function fetchWardsPost(distCode) {
+            const wardSel = document.getElementById('selWard');
+            wardSel.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+            
+            if(!distCode) { wardSel.disabled = true; return; }
+
+            wardSel.disabled = false;
+            fetch(`https://provinces.open-api.vn/api/d/${distCode}?depth=2`)
+            .then(res => res.json())
+            .then(data => {
+                let html = '<option value="">-- Chọn Phường/Xã --</option>';
+                data.wards.forEach(w => { html += `<option value="${w.code}">${w.name}</option>`; });
+                wardSel.innerHTML = html;
+            });
+        }
+        // ==========================================
+        // 1. TÍNH NĂNG HIỂN THỊ ẢNH KHI UPLOAD
+        // ==========================================
+        const fileInput = document.getElementById('fileUpload');
+        const previewContainer = document.getElementById('imagePreviewContainer');
+
+        fileInput.addEventListener('change', function() {
+            previewContainer.innerHTML = ''; // Xóa ảnh cũ nếu chọn lại
+            Array.from(this.files).forEach(file => {
+                if(file && file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.className = 'preview-thumbnail';
+                    previewContainer.appendChild(img);
+                }
+            });
+        });
+
+        // ==========================================
+        // 2. TÍNH NĂNG XEM TRƯỚC (PREVIEW)
+        // ==========================================
+        const btnPreview = document.querySelector('.btn-preview');
+        const modal = document.getElementById('previewModal');
+
+        btnPreview.addEventListener('click', function() {
+            // Lấy dữ liệu từ form
+            const title = document.querySelector('input[name="title"]').value || 'Chưa nhập tiêu đề...';
+            const price = document.querySelector('input[name="price"]').value || '0';
+            const street = document.querySelector('input[name="street"]').value || '';
+            const desc = document.querySelector('textarea[name="description"]').value || 'Chưa có mô tả...';
+            
+            // Lấy tên Phường, Quận, Tỉnh
+            const provSel = document.getElementById('selProv');
+            const distSel = document.getElementById('selDist');
+            const wardSel = document.getElementById('selWard');
+            let fullAddress = street;
+            if(wardSel.value) fullAddress += ', ' + wardSel.options[wardSel.selectedIndex].text;
+            if(distSel.value) fullAddress += ', ' + distSel.options[distSel.selectedIndex].text;
+            if(provSel.value) fullAddress += ', ' + provSel.options[provSel.selectedIndex].text;
+
+            // Đổ vào Modal
+            document.getElementById('prevTitle').innerText = title;
+            document.getElementById('prevPrice').innerText = Number(price).toLocaleString('vi-VN') + ' VNĐ/tháng';
+            document.querySelector('#prevAddress span').innerText = fullAddress || 'Chưa nhập địa chỉ';
+            document.getElementById('prevDesc').innerText = desc;
+
+            // Mở Modal
+            modal.style.display = "block";
+        });
+
+        function closePreview() {
+            modal.style.display = "none";
+        }
+
+        // ==========================================
+        // 3. LOGIC LUỒNG THANH TOÁN & ĐĂNG TIN
+        // ==========================================
+        let finalPrice = 0;
+        let selectedPkgName = "Cơ bản";
+        let selectedDuration = 7;
+
+        // Bắt sự kiện submit form (Thay vì gửi luôn thì mở bảng Chọn Gói)
+        const form = document.getElementById('listingForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Dừng việc gửi form
+            // Cập nhật giá khởi điểm
+            updatePriceCalc();
+            document.getElementById('packageModal').style.display = 'block';
+        });
+
+        // Đóng các modal
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        // Tính toán giá tiền khi chọn gói
+        function updatePriceCalc() {
+            const pkg = document.querySelector('input[name="pkg_type"]:checked');
+            const dur = document.querySelector('input[name="duration"]:checked');
+            
+            selectedPkgName = pkg.value;
+            selectedDuration = dur.value;
+            // Công thức: Giá gói * số ngày
+            finalPrice = parseInt(pkg.dataset.price) * parseInt(selectedDuration);
+            
+            document.getElementById('totalPkgPrice').innerText = finalPrice.toLocaleString('vi-VN') + ' đ';
+        }
+
+        // Lắng nghe sự thay đổi khi chọn Radio Gói/Ngày
+        document.querySelectorAll('input[name="pkg_type"], input[name="duration"]').forEach(radio => {
+            radio.addEventListener('change', updatePriceCalc);
+        });
+
+        // Bấm "Tiếp tục" ở bảng Chọn gói -> Mở bảng Thanh toán
+        function goToCheckout() {
+            closeModal('packageModal');
+            document.getElementById('summaryPkgName').innerText = `Tin ${selectedPkgName} - ${selectedDuration} ngày`;
+            document.getElementById('summaryPrice').innerText = finalPrice.toLocaleString('vi-VN') + ' đ';
+            document.getElementById('checkoutModal').style.display = 'block';
+        }
+
+        // Bấm "Nạp thêm" -> Mở mã QR
+        function goToQRRecharge() {
+            // Tạm ẩn bảng checkout
+            document.getElementById('checkoutModal').style.display = 'none';
+            
+            // Cấu hình mã QR VietQR (MB Bank: 970422, STK: 0123456789 - Bạn sửa lại đúng STK của bạn)
+            // Cú pháp nạp: NAPXU + Số điện thoại hoặc UID (Demo: NAPXU 0987654321)
+            const bankBin = "970422"; // MB Bank
+            const accNo = "0123456789"; 
+            const amount = finalPrice > 0 ? finalPrice : 50000; // Nếu giá = 0, mặc định nạp 50k xu
+            const content = "NAPXU TT" + Math.floor(Math.random() * 10000); 
+
+            // API VietQR tạo ảnh tĩnh
+            const qrUrl = `https://img.vietqr.io/image/${bankBin}-${accNo}-compact2.png?amount=${amount}&addInfo=${content}&accountName=TRAN DUY DUC`;
+            
+            document.getElementById('qrImage').src = qrUrl;
+            document.getElementById('qrAmountShow').innerText = amount.toLocaleString('vi-VN') + ' đ';
+            document.getElementById('qrContentShow').innerText = content;
+
+            document.getElementById('qrModal').style.display = 'block';
+        }
+
+        // Bấm "Thanh toán & Đăng tin" -> Bắn dữ liệu về Server
+        async function confirmFinalPost() {
+            // Giả lập check số dư (Nếu giá > 0 mà số dư = 0 thì báo nạp)
+            if (finalPrice > 0) {
+                alert("Số dư Xu không đủ. Vui lòng nạp thêm Xu!");
+                goToQRRecharge();
+                return;
+            }
+
+            // Tiến hành gửi dữ liệu thực sự
+            const btnSubmit = document.querySelector('#checkoutModal .btn-submit-post');
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+            btnSubmit.disabled = true;
+
+            try {
+                const formData = new FormData(form);
+                // Nối thêm thông tin Gói và Thời gian vào FormData
+                formData.append('package_type', selectedPkgName);
+                formData.append('duration_days', selectedDuration);
+
+                const response = await fetch('/post', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                if(result.status === 'success') {
+                    alert("🎉 Tuyệt vời! Đăng tin và thanh toán thành công. Đang chuyển về Trang chủ...");
+                    window.location.href = '/'; // Chuyển về trang chủ
+                } else {
+                    alert("Lỗi: " + result.message);
+                }
+            } catch (err) {
+                alert("Lỗi kết nối máy chủ!");
+            } finally {
+                btnSubmit.innerHTML = 'Thanh toán & Đăng tin';
+                btnSubmit.disabled = false;
+            }
+        }
+    </script>
+    
+</body>
+</html>

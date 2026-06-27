@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý bài viết - Trọ Tốt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: #f4f6f8;">
+    <nav class="glass-navbar" style="background: #fff; box-shadow: 0 1px 5px rgba(0,0,0,0.05);">
+        <div class="header-left"><a href="/" style="text-decoration: none;"><div class="logo">Trọ Tốt</div></a></div>
+        <div class="header-right"><a href="/post" class="btn-post">Đăng tin <i class="fas fa-pencil-alt"></i></a></div>
+    </nav>
+
+    <div class="manage-container">
+        <!-- Breadcrumb & Top Links -->
+        <div class="manage-top-bar">
+            <span style="color: #00acc1; font-weight: bold;">Trợ Tốt <i class="fas fa-chevron-right" style="font-size: 10px; margin: 0 5px; color:#888;"></i> Quản lý bài viết</span>
+            <div class="top-shortcuts">
+                <a href="#"><i class="fas fa-star" style="color: #ff9800;"></i> Ưu đãi</a>
+                <a href="#"><i class="fas fa-crown"></i> Gói VIP</a>
+                <a href="#"><i class="fas fa-address-book"></i> Danh bạ người thuê</a>
+            </div>
+            <div class="search-myposts">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm bài viết của bạn...">
+            </div>
+        </div>
+
+        <!-- Bảng điều khiển cá nhân -->
+        <div class="dashboard-header">
+            <div class="user-dash-info">
+                <img src="https://ui-avatars.com/api/?name={{ user.display_name }}&background=00acc1&color=fff" class="dash-avatar">
+                <div>
+                    <h2 style="font-size: 18px;">{{ user.display_name }}</h2>
+                    <a href="#" style="color: #00acc1; text-decoration: none; font-size: 13px;"><i class="fas fa-plus"></i> Tạo trang chủ trọ</a>
+                </div>
+            </div>
+            <div class="dash-wallet">
+                <i class="fas fa-coins" style="color: #ffc107;"></i> Số dư xu: <strong>0</strong> <i class="fas fa-plus-square" style="color: #4caf50; cursor:pointer;"></i>
+            </div>
+        </div>
+
+        <!-- Tabs Trạng thái -->
+        <div class="manage-tabs">
+            <div class="mtab active">ĐANG HIỂN THỊ (1)</div>
+            <div class="mtab">HẾT HẠN (0)</div>
+            <div class="mtab">BỊ TỪ CHỐI (0)</div>
+            <div class="mtab">CẦN THANH TOÁN (0)</div>
+            <div class="mtab">BẢN NHÁP (0)</div>
+            <div class="mtab">CHỜ DUYỆT (0)</div>
+            <div class="mtab">ĐÃ CHO THUÊ (0)</div>
+        </div>
+
+        <!-- Banner Tối ưu -->
+        <div class="optimize-banner">
+            <i class="fas fa-chart-line" style="color: #4caf50; font-size: 24px;"></i>
+            <div>
+                <strong style="color: #2e7d32;">Tối ưu hóa bài đăng</strong>
+                <p style="font-size: 13px; color: #555;">Giúp phòng của bạn tiếp cận người thuê hiệu quả hơn mỗi ngày.</p>
+            </div>
+            <button class="btn-outline">Xem thêm</button>
+        </div>
+
+        <!-- Card Quản lý 1 bài viết -->
+        <div class="post-manage-card">
+            <div class="post-manage-left">
+                <img src="https://via.placeholder.com/150" alt="Phòng trọ">
+                <div class="post-manage-details">
+                    <h3><i class="fas fa-check-circle" style="color:#2196f3;"></i> Phòng trọ 25m2 1/x Ung Văn Khiêm, Hẻm ô tô, Gác xép, Máy lạnh</h3>
+                    {% if posts %}
+            {% for post in posts %}
+            <div class="post-manage-card">
+                <div class="post-manage-left">
+                    <img src="{{ post.image_url }}" alt="Phòng trọ">
+                    <div class="post-manage-details">
+                        <h3><i class="fas fa-check-circle" style="color:#2196f3;"></i> {{ post.title }}</h3>
+                        <div class="price">{{ "{:,.0f}".format(post.price).replace(',', '.') }} đ/tháng</div>
+                        <div class="address">{{ post.address }}</div>
+                        <div class="dates">Gói tin: {{ post.package }} ({{ post.duration }} ngày)</div>
+                        <div class="status">Trạng thái: <span style="color:#4caf50; font-weight:bold;">Đang hiển thị</span></div>
+                    </div>
+                </div>
+                <div class="post-manage-right">
+                    <div class="stats-box">
+                        <div class="stat"><span class="lbl">Lượt xem <i class="fas fa-info-circle"></i></span><br><strong>0</strong></div>
+                        <div class="stat"><span class="lbl">Yêu thích <i class="fas fa-heart"></i></span><br><strong>0</strong></div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="/post/{{ post.id }}" class="btn-secondary" style="text-decoration: none; display: flex;"><i class="fas fa-eye"></i> Xem</a>
+                        <button class="btn-secondary" style="color: #d32f2f;"><i class="fas fa-trash"></i> Xóa</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div style="text-align: center; padding: 50px; background: #fff; border-radius: 8px;">
+                <p style="color: #888;">Bạn chưa có bài viết nào đang hiển thị.</p>
+                <a href="/post" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #ffba00; border-radius: 5px; font-weight: bold; text-decoration: none; color: #333;">Đăng tin ngay</a>
+            </div>
+        {% endif %}
+                    <button class="btn-primary"><i class="fas fa-rocket"></i> Đẩy bài nhanh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

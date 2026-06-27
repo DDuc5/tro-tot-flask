@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trọ Tốt - Giá tốt, gần bạn, chốt nhanh!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=1.1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav class="glass-navbar">
+        <div class="header-left">
+            <!-- BẮT ĐẦU: Khối Menu 3 gạch & Dropdown Danh Mục -->
+            <div class="mega-menu-wrapper">
+                <i class="fas fa-bars menu-icon"></i>
+                
+                <div class="mega-menu-content">
+                    <div class="mega-menu-header">Danh mục</div>
+                    <div class="mega-menu-body">
+                        <ul class="main-category-list">
+                            <!-- Danh mục 1 -->
+                            <li class="active">
+                                <div class="main-cat-title"><i class="far fa-building"></i> Bất động sản</div>
+                                <ul class="sub-category-list">
+                                    <li>Mua bán</li>
+                                    <li>Cho thuê</li>
+                                    <li>Dự án</li>
+                                </ul>
+                            </li>
+                            <!-- Danh mục 2 -->
+                            <li>
+                                <div class="main-cat-title"><i class="fas fa-motorcycle"></i> Xe cộ</div>
+                                <ul class="sub-category-list">
+                                    <li>Xe máy</li>
+                                    <li>Ô tô</li>
+                                    <li>Xe đạp</li>
+                                    <li>Phụ tùng xe</li>
+                                </ul>
+                            </li>
+                            <!-- Danh mục 3 -->
+                            <li>
+                                <div class="main-cat-title"><i class="fas fa-laptop"></i> Đồ điện tử</div>
+                                <ul class="sub-category-list">
+                                    <li>Điện thoại</li>
+                                    <li>Máy tính bảng</li>
+                                    <li>Laptop</li>
+                                    <li>Linh kiện</li>
+                                </ul>
+                            </li>
+                            <!-- Danh mục 4 -->
+                            <li>
+                                <div class="main-cat-title"><i class="fas fa-briefcase"></i> Việc làm</div>
+                                <ul class="sub-category-list">
+                                    <li>Bán thời gian</li>
+                                    <li>Toàn thời gian</li>
+                                    <li>Thực tập</li>
+                                </ul>
+                            </li>
+                            <!-- Danh mục 5 -->
+                            <li>
+                                <div class="main-cat-title"><i class="fas fa-broom"></i> Dịch vụ chăm sóc nhà cửa</div>
+                            </li>
+                            <!-- Danh mục 6 -->
+                            <li>
+                                <div class="main-cat-title"><i class="fas fa-paw"></i> Thú cưng</div>
+                            </li>
+                            <!-- Danh mục 7 -->
+                            <li>
+                                <div class="main-cat-title"><i class="fas fa-utensils"></i> Đồ ăn, thực phẩm, và các loại...</div>
+                            </li>
+                            <!-- Danh mục 8 -->
+                            <li>
+                                <div class="main-cat-title"><i class="fas fa-snowflake"></i> Tủ lạnh, máy lạnh, máy giặt</div>
+                            </li>
+                            <!-- Danh mục 9 -->
+                            <li>
+                                <div class="main-cat-title"><i class="fas fa-couch"></i> Đồ gia dụng, nội thất, cây cảnh</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- KẾT THÚC: Khối Menu -->
+
+            <div class="logo">Trọ Tốt</div>
+            
+            <!-- Dropdown Dành cho người bán -->
+            <div class="dropdown">
+                <span class="dropbtn">Dành cho người bán <i class="fas fa-chevron-down" style="font-size: 10px; margin-left: 3px;"></i></span>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fas fa-list-alt"></i> Quản lý tin đăng</a>
+                    <a href="#"><i class="fas fa-star" style="color: #ff9800;"></i> Gói Pro</a>
+                    <a href="#"><i class="fas fa-handshake" style="color: #00acc1;"></i> Gói Đối tác</a>
+                </div>
+            </div>
+        <a href="/manage-posts" style="font-weight: 600; color: #333; text-decoration: none; font-size: 14px; margin-left: 10px; transition: color 0.2s;" onmouseover="this.style.color='#00838f'" onmouseout="this.style.color='#333'">Quản lý bài viết</a>
+        </div>
+
+        <div class="header-right">
+            <a href="#" class="icon-link"><i class="far fa-heart"></i></a>
+            
+            <a href="/chat" class="icon-link notification" style="font-size: 14px; font-weight: 600;">
+                <div style="position: relative; display: flex; align-items: center;">
+                    <i class="far fa-comment-dots" style="font-size: 20px;"></i>
+                    <span class="badge" style="top: -6px; right: -8px; position: absolute;">1</span>
+                </div>
+                <span>Tin nhắn</span>
+            </a>
+            
+            {% if user %}
+                <a href="/post" class="btn-post">Đăng tin <i class="fas fa-pencil-alt" style="margin-left: 5px;"></i></a>
+                
+                <div class="user-profile-dropdown">
+                    <img src="https://ui-avatars.com/api/?name={{ user.display_name }}&background=00acc1&color=fff" alt="Avatar" class="avatar-img">
+                    
+                    <div class="profile-menu">
+                        <div class="profile-header">
+                            <img src="https://ui-avatars.com/api/?name={{ user.display_name }}&background=00acc1&color=fff" alt="Avatar" class="profile-avatar-large">
+                            <div class="profile-name">{{ user.display_name }}</div>
+                            <div class="profile-stats">Người theo dõi 0 &nbsp;|&nbsp; Đang theo dõi 0</div>
+                        </div>
+
+                        <div class="box-section">
+                            <div class="wallet-row">
+                                <span class="label"><i class="fas fa-id-card"></i> UID Tài khoản</span>
+                                <span class="value">{{ user.uid[:15] }}... <i class="far fa-copy" style="cursor: pointer;"></i></span>
+                            </div>
+                            <div class="wallet-row">
+                                <span class="label">Xu Trọ Tốt</span>
+                                <span class="value coin-value">0 <i class="fas fa-coins" style="color: #ffc107;"></i></span>
+                            </div>
+                            <button class="btn-recharge">Nạp xu ngay</button>
+                        </div>
+
+                        <div class="menu-section-title">Quản lý cá nhân</div>
+                        <div class="box-section">
+                            <a href="#" class="menu-item"><i class="fas fa-heart"></i> Bài viết đã thích <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-bookmark"></i> Lịch sử tìm kiếm <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-clock"></i> Phòng đã xem <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-star"></i> Đánh giá của tôi <i class="fas fa-chevron-right arrow"></i></a>
+                        </div>
+
+                        <div class="menu-section-title">Dịch vụ & Tiện ích</div>
+                        <div class="box-section">
+                            <a href="#" class="menu-item"><i class="fas fa-coins" style="color: #ffc107;"></i> Quản lý Xu Trọ Tốt <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-crown" style="color: #ff9800;"></i> Nâng cấp Gói VIP <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-handshake" style="color: #00acc1;"></i> Đăng ký Chủ Trọ Đối Tác <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-history"></i> Lịch sử giao dịch <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-store"></i> Tạo trang phòng trọ <span style="margin-left: auto; font-size: 11px; background: #eee; padding: 2px 6px; border-radius: 10px;">Tạo ngay</span></a>
+                        </div>
+
+                        <div class="menu-section-title">Hệ thống</div>
+                        <div class="box-section">
+                            <a href="#" class="menu-item"><i class="fas fa-gift"></i> Voucher của tôi <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-cog"></i> Cài đặt tài khoản <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="#" class="menu-item"><i class="fas fa-headset"></i> Trợ giúp & Góp ý <i class="fas fa-chevron-right arrow"></i></a>
+                            <a href="/logout" class="menu-item logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất <i class="fas fa-chevron-right arrow"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <a href="/login" class="btn-login">Đăng nhập</a>
+                <a href="/post" class="btn-post">Đăng tin <i class="fas fa-pencil-alt" style="margin-left: 5px;"></i></a>
+                <div class="user-profile">
+                    <i class="fas fa-user-circle fa-2x" style="color: #888;"></i>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <section class="hero-banner">
+        <h1 class="banner-title">Giá tốt, gần bạn, chốt nhanh!</h1>
+        <div class="chotot-search-bar glass-card" style="position: relative;">
+            
+            <div class="search-input">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Tìm phòng trọ, nhà nguyên căn...">
+            </div>
+            <div class="search-divider"></div>
+            
+            <div class="search-filter-btn" id="btnLocation" onclick="toggleDropdown('dropLocation')">
+                <i class="fas fa-map-marker-alt" style="color: #00acc1;"></i>
+                <span id="textLocation">Toàn quốc</span>
+                <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+            </div>
+            <div class="search-divider"></div>
+
+            <div class="search-filter-btn" id="btnPrice" onclick="toggleDropdown('dropPrice')">
+                <i class="fas fa-tags" style="color: #ff9800;"></i>
+                <span id="textPrice">Mức giá</span>
+                <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+            </div>
+
+            <button class="btn-search-main" onclick="executeSearch()">Tìm kiếm</button>
+
+            <div class="filter-dropdown" id="dropLocation">
+                <div class="filter-header">Khu vực</div>
+                <div class="filter-body">
+                    <div class="form-group-filter">
+                        <label>Tỉnh/Thành phố <span>*</span></label>
+                        <select id="selectProvince" onchange="fetchDistricts(this.value)">
+                            <option value="ALL">Toàn quốc</option>
+                        </select>
+                    </div>
+                    <div class="form-group-filter">
+                        <label>Quận/Huyện</label>
+                        <select id="selectDistrict" onchange="fetchWards(this.value)" disabled>
+                            <option value="ALL">Tất cả Quận/Huyện</option>
+                        </select>
+                    </div>
+                    <div class="form-group-filter">
+                        <label>Phường/Xã</label>
+                        <select id="selectWard" disabled>
+                            <option value="ALL">Tất cả Phường/Xã</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-footer">
+                    <button class="btn-clear-filter" onclick="clearLocation()">Xóa lọc</button>
+                    <button class="btn-apply-filter" onclick="applyLocation()">Áp dụng</button>
+                </div>
+            </div>
+
+            <div class="filter-dropdown" id="dropPrice">
+                <div class="filter-header">Chọn mức giá</div>
+                <div class="filter-body">
+                    <div class="price-inputs">
+                        <input type="number" id="minPrice" placeholder="Từ (VNĐ)">
+                        <span>-</span>
+                        <input type="number" id="maxPrice" placeholder="Đến (VNĐ)">
+                    </div>
+                    <div class="price-suggestions">
+                        <span onclick="setPrice(0, 2000000)">Dưới 2 triệu</span>
+                        <span onclick="setPrice(2000000, 4000000)">2 - 4 triệu</span>
+                        <span onclick="setPrice(4000000, 7000000)">4 - 7 triệu</span>
+                        <span onclick="setPrice(7000000, 999999999)">Trên 7 triệu</span>
+                    </div>
+                </div>
+                <div class="filter-footer">
+                    <button class="btn-clear-filter" onclick="clearPrice()">Xóa lọc</button>
+                    <button class="btn-apply-filter" onclick="applyPrice()">Áp dụng</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="categories-wrapper glass-card">
+            <div class="category-item"><i class="fas fa-building fa-2x"></i><span>Phòng trọ</span></div>
+            <div class="category-item"><i class="fas fa-home fa-2x"></i><span>Nhà nguyên căn</span></div>
+            <div class="category-item"><i class="fas fa-city fa-2x"></i><span>Căn hộ</span></div>
+            <div class="category-item"><i class="fas fa-users fa-2x"></i><span>Ở ghép</span></div>
+            <div class="category-item"><i class="fas fa-store fa-2x"></i><span>Mặt bằng</span></div>
+            <div class="category-item"><i class="fas fa-bed fa-2x"></i><span>Ký túc xá</span></div>
+            <div class="category-item"><i class="fas fa-couch fa-2x"></i><span>Nội thất</span></div>
+            <div class="category-item"><i class="fas fa-motorcycle fa-2x"></i><span>Chuyển nhà</span></div>
+        </div>
+
+        <div class="listings-section glass-card">
+            <div class="tabs">
+                <div class="tab active">Dành cho bạn</div>
+                <div class="tab">Mới nhất</div>
+                <div class="tab">Video <span class="badge-plus">+</span></div>
+            </div>
+
+            <div class="grid-listings">
+                {% if posts %}
+                    {% for post in posts %}
+                    <a href="/post/{{ post.id }}" class="chotot-card" style="text-decoration: none; color: inherit; display: block;">
+                        <div class="card-thumb">
+                            <img src="{{ post.image_url }}" alt="{{ post.room_type }}">
+                            <span class="time-badge">Mới đăng</span>
+                            <div class="thumb-icons">
+                                <button class="btn-save"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            {% if post.package == 'Nâng cao' %}
+                            <div class="card-tag"><i class="fas fa-star" style="color: #ff9800;"></i> Tin Nổi Bật</div>
+                            {% endif %}
+                            
+                            <h3 class="card-title">{{ post.title }}</h3>
+                            <div class="card-specs">{{ post.area }}m² - {{ post.room_type }}</div>
+                            <div class="card-price">{{ "{:,.0f}".format(post.price).replace(',', '.') }} đ</div>
+                            <div class="card-footer">
+                                <span class="location"><i class="fas fa-map-marker-alt"></i> {{ post.address }}</span>
+                                <button class="btn-more"><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: #888;">
+                        <i class="fas fa-box-open fa-3x" style="color: #ccc; margin-bottom: 15px;"></i>
+                        <p>Hiện chưa có phòng trọ nào được đăng. Hãy là người đầu tiên!</p>
+                    </div>
+                {% endif %}
+            </div>
+
+                <div class="chotot-card">
+                    <div class="card-thumb">
+                        <img src="https://via.placeholder.com/400x300/4dd0e1/ffffff?text=Nha+Nguyen+Can" alt="Nhà nguyên căn">
+                        <span class="time-badge">Hôm qua</span>
+                        <div class="thumb-icons">
+                            <span class="img-count"><i class="far fa-image"></i> 8</span>
+                            <button class="btn-save"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">Nhà nguyên căn hẻm xe hơi, 1 trệt 2 lầu gần Đại học</h3>
+                        <div class="card-specs">60m² - 3 PN - 3 WC</div>
+                        <div class="card-price">12.000.000 đ</div>
+                        <div class="card-footer">
+                            <span class="location"><i class="fas fa-map-marker-alt"></i> TP. Thủ Đức</span>
+                            <button class="btn-more"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // ==========================================
+        // 1. ĐÓNG MỞ DROPDOWN
+        // ==========================================
+        function toggleDropdown(id) {
+            // Tắt tất cả các dropdown khác trước khi mở
+            document.querySelectorAll('.filter-dropdown').forEach(el => {
+                if(el.id !== id) el.style.display = 'none';
+            });
+            const drop = document.getElementById(id);
+            drop.style.display = drop.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Đóng dropdown khi click ra ngoài
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.chotot-search-bar')) {
+                document.querySelectorAll('.filter-dropdown').forEach(el => el.style.display = 'none');
+            }
+        });
+
+        // ==========================================
+        // 2. TẢI DỮ LIỆU ĐỊA CHỈ TỪ API VIỆT NAM
+        // ==========================================
+        // Tải danh sách Tỉnh/Thành ngay khi mở web
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('https://provinces.open-api.vn/api/p/')
+            .then(res => res.json())
+            .then(data => {
+                let html = '<option value="ALL">Toàn quốc</option>';
+                data.forEach(p => {
+                    html += `<option value="${p.code}">${p.name}</option>`;
+                });
+                document.getElementById('selectProvince').innerHTML = html;
+            });
+        });
+
+        // Tải Quận/Huyện khi chọn Tỉnh
+        function fetchDistricts(provinceCode) {
+            const districtSelect = document.getElementById('selectDistrict');
+            const wardSelect = document.getElementById('selectWard');
+            
+            // Khôi phục mặc định
+            districtSelect.innerHTML = '<option value="ALL">Tất cả Quận/Huyện</option>';
+            wardSelect.innerHTML = '<option value="ALL">Tất cả Phường/Xã</option>';
+            wardSelect.disabled = true;
+
+            if(provinceCode === 'ALL') {
+                districtSelect.disabled = true;
+                return;
+            }
+
+            districtSelect.disabled = false;
+            fetch(`https://provinces.open-api.vn/api/p/${provinceCode}?depth=2`)
+            .then(res => res.json())
+            .then(data => {
+                let html = '<option value="ALL">Tất cả Quận/Huyện</option>';
+                data.districts.forEach(d => {
+                    html += `<option value="${d.code}">${d.name}</option>`;
+                });
+                districtSelect.innerHTML = html;
+            });
+        }
+
+        // Tải Phường/Xã khi chọn Quận/Huyện
+        function fetchWards(districtCode) {
+            const wardSelect = document.getElementById('selectWard');
+            wardSelect.innerHTML = '<option value="ALL">Tất cả Phường/Xã</option>';
+
+            if(districtCode === 'ALL') {
+                wardSelect.disabled = true;
+                return;
+            }
+
+            wardSelect.disabled = false;
+            fetch(`https://provinces.open-api.vn/api/d/${districtCode}?depth=2`)
+            .then(res => res.json())
+            .then(data => {
+                let html = '<option value="ALL">Tất cả Phường/Xã</option>';
+                data.wards.forEach(w => {
+                    html += `<option value="${w.code}">${w.name}</option>`;
+                });
+                wardSelect.innerHTML = html;
+            });
+        }
+
+        // Cập nhật hiển thị lên thanh tìm kiếm
+        function applyLocation() {
+            const prov = document.getElementById('selectProvince');
+            const dist = document.getElementById('selectDistrict');
+            const ward = document.getElementById('selectWard');
+            const textLocation = document.getElementById('textLocation');
+            
+            // Ưu tiên hiển thị từ cấp nhỏ nhất
+            if (ward.value !== "ALL" && !ward.disabled) {
+                textLocation.innerText = ward.options[ward.selectedIndex].text;
+            } else if (dist.value !== "ALL" && !dist.disabled) {
+                textLocation.innerText = dist.options[dist.selectedIndex].text;
+            } else if (prov.value !== "ALL") {
+                textLocation.innerText = prov.options[prov.selectedIndex].text;
+            } else {
+                textLocation.innerText = "Toàn quốc";
+            }
+            toggleDropdown('dropLocation');
+        }
+
+        function clearLocation() {
+            document.getElementById('selectProvince').value = "ALL";
+            const dist = document.getElementById('selectDistrict');
+            dist.innerHTML = '<option value="ALL">Tất cả Quận/Huyện</option>';
+            dist.disabled = true;
+            
+            const ward = document.getElementById('selectWard');
+            ward.innerHTML = '<option value="ALL">Tất cả Phường/Xã</option>';
+            ward.disabled = true;
+            
+            document.getElementById('textLocation').innerText = "Toàn quốc";
+        }
+
+        // ==========================================
+        // 3. XỬ LÝ PHẦN GIÁ TIỀN
+        // ==========================================
+        function setPrice(min, max) {
+            document.getElementById('minPrice').value = min;
+            document.getElementById('maxPrice').value = max;
+        }
+        function applyPrice() {
+            const min = document.getElementById('minPrice').value;
+            const max = document.getElementById('maxPrice').value;
+            const textPrice = document.getElementById('textPrice');
+
+            if (min && max) {
+                textPrice.innerText = (min/1000000) + "tr - " + (max/1000000) + "tr";
+            } else if (min) {
+                textPrice.innerText = "Từ " + (min/1000000) + "tr";
+            } else if (max) {
+                textPrice.innerText = "Dưới " + (max/1000000) + "tr";
+            } else {
+                textPrice.innerText = "Mức giá";
+            }
+            toggleDropdown('dropPrice');
+        }
+        function clearPrice() {
+            document.getElementById('minPrice').value = "";
+            document.getElementById('maxPrice').value = "";
+            document.getElementById('textPrice').innerText = "Mức giá";
+        }
+
+        // ==========================================
+        // 4. BẤM NÚT TÌM KIẾM CHÍNH
+        // ==========================================
+        function executeSearch() {
+            const keyword = document.getElementById('searchInput').value;
+            const prov = document.getElementById('selectProvince').value;
+            const dist = document.getElementById('selectDistrict').value;
+            const ward = document.getElementById('selectWard').value;
+            const minP = document.getElementById('minPrice').value;
+            const maxP = document.getElementById('maxPrice').value;
+            
+            let url = `/?keyword=${keyword}&prov=${prov}&district=${dist}&ward=${ward}&min=${minP}&max=${maxP}`;
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

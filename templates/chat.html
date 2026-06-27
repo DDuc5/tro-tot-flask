@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hộp thư - Trọ Tốt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: #f4f6f8;">
+    <!-- Kế thừa Header -->
+    <nav class="glass-navbar" style="background: #fff;">
+        <div class="header-left">
+            <a href="/" style="text-decoration: none;"><div class="logo">Trọ Tốt</div></a>
+        </div>
+        <div class="header-right">
+            <a href="/manage-posts" class="btn-manage" style="font-weight: 600; color: #333; text-decoration: none; font-size: 14px; margin-right: 15px;">Quản lý bài viết</a>
+            <a href="/post" class="btn-post">Đăng tin <i class="fas fa-pencil-alt"></i></a>
+        </div>
+    </nav>
+
+    <!-- Khung Chat chính -->
+    <div class="chat-container">
+        <!-- Cột Sidebar Chat -->
+        <div class="chat-sidebar">
+            <div class="chat-header-tabs">
+                <div class="chat-tab active"><i class="far fa-comments"></i> Hộp thư</div>
+                <div class="chat-tab"><i class="fas fa-user-friends"></i> Người thuê</div>
+            </div>
+            
+            <div class="chat-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Nhập tên để tìm kiếm...">
+            </div>
+            
+            <div class="chat-filters">
+                <span class="filter-btn active">Tất cả</span>
+                <span class="filter-btn">Chưa đọc</span>
+                <span class="filter-btn">Đã ẩn</span>
+            </div>
+
+            <div class="chat-list">
+                <!-- Item Chat 1 -->
+                <div class="chat-item unread">
+                    <img src="https://ui-avatars.com/api/?name=Thanh+Tam&background=random" class="chat-avatar">
+                    <div class="chat-info">
+                        <div class="chat-name-time">
+                            <span class="name">Lê Thanh Tâm</span>
+                            <span class="time">17 giờ trước</span>
+                        </div>
+                        <div class="chat-preview">Người thuê đang quan tâm phòng của bạn...</div>
+                        <div class="chat-post-link"><i class="fas fa-home"></i> Thuê Phòng trọ, Quận Bình Thạnh <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+
+                <!-- Item Chat 2 -->
+                <div class="chat-item">
+                    <img src="https://ui-avatars.com/api/?name=Minh+Nhat&background=random" class="chat-avatar">
+                    <div class="chat-info">
+                        <div class="chat-name-time">
+                            <span class="name">Nguyễn Hoàng Minh Nhật</span>
+                            <span class="time">4 ngày trước</span>
+                        </div>
+                        <div class="chat-preview">Cảm ơn anh/chị đã quan tâm. Phòng em...</div>
+                        <div class="chat-post-link"><i class="fas fa-home"></i> Thuê Phòng trọ, TP. Thủ Đức <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột Nội dung Chat -->
+        <div class="chat-main">
+            <div class="chat-empty-state">
+                <img src="https://via.placeholder.com/300x250/e0f7fa/00acc1?text=Tro+Tot+Chat" alt="Chat Illustration" style="border-radius: 20px; margin-bottom: 20px;">
+                <h3>Phản hồi nhiệt tình, chốt phòng cực nhanh!</h3>
+                <p style="color: #666; margin-top: 10px;">Chọn một cuộc hội thoại bên trái để bắt đầu nhắn tin.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hộp thư - Trọ Tốt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: #f4f6f8;">
+    <!-- Kế thừa Header -->
+    <nav class="glass-navbar" style="background: #fff;">
+        <div class="header-left">
+            <a href="/" style="text-decoration: none;"><div class="logo">Trọ Tốt</div></a>
+        </div>
+        <div class="header-right">
+            <a href="/manage-posts" class="btn-manage" style="font-weight: 600; color: #333; text-decoration: none; font-size: 14px; margin-right: 15px;">Quản lý bài viết</a>
+            <a href="/post" class="btn-post">Đăng tin <i class="fas fa-pencil-alt"></i></a>
+        </div>
+    </nav>
+
+    <!-- Khung Chat chính -->
+    <div class="chat-container">
+        <!-- Cột Sidebar Chat -->
+        <div class="chat-sidebar">
+            <div class="chat-header-tabs">
+                <div class="chat-tab active"><i class="far fa-comments"></i> Hộp thư</div>
+                <div class="chat-tab"><i class="fas fa-user-friends"></i> Người thuê</div>
+            </div>
+            
+            <div class="chat-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Nhập tên để tìm kiếm...">
+            </div>
+            
+            <div class="chat-filters">
+                <span class="filter-btn active">Tất cả</span>
+                <span class="filter-btn">Chưa đọc</span>
+                <span class="filter-btn">Đã ẩn</span>
+            </div>
+
+            <div class="chat-list">
+                <!-- Item Chat 1 -->
+                <div class="chat-item unread">
+                    <img src="https://ui-avatars.com/api/?name=Thanh+Tam&background=random" class="chat-avatar">
+                    <div class="chat-info">
+                        <div class="chat-name-time">
+                            <span class="name">Lê Thanh Tâm</span>
+                            <span class="time">17 giờ trước</span>
+                        </div>
+                        <div class="chat-preview">Người thuê đang quan tâm phòng của bạn...</div>
+                        <div class="chat-post-link"><i class="fas fa-home"></i> Thuê Phòng trọ, Quận Bình Thạnh <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+
+                <!-- Item Chat 2 -->
+                <div class="chat-item">
+                    <img src="https://ui-avatars.com/api/?name=Minh+Nhat&background=random" class="chat-avatar">
+                    <div class="chat-info">
+                        <div class="chat-name-time">
+                            <span class="name">Nguyễn Hoàng Minh Nhật</span>
+                            <span class="time">4 ngày trước</span>
+                        </div>
+                        <div class="chat-preview">Cảm ơn anh/chị đã quan tâm. Phòng em...</div>
+                        <div class="chat-post-link"><i class="fas fa-home"></i> Thuê Phòng trọ, TP. Thủ Đức <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột Nội dung Chat -->
+        <div class="chat-main">
+            <div class="chat-empty-state">
+                <img src="https://via.placeholder.com/300x250/e0f7fa/00acc1?text=Tro+Tot+Chat" alt="Chat Illustration" style="border-radius: 20px; margin-bottom: 20px;">
+                <h3>Phản hồi nhiệt tình, chốt phòng cực nhanh!</h3>
+                <p style="color: #666; margin-top: 10px;">Chọn một cuộc hội thoại bên trái để bắt đầu nhắn tin.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
