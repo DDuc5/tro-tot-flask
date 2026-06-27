@@ -164,10 +164,23 @@
                     </div>
                 </div>
             {% else %}
-                <a href="/login" class="btn-login">Đăng nhập</a>
                 <a href="/post" class="btn-post">Đăng tin <i class="fas fa-pencil-alt" style="margin-left: 5px;"></i></a>
-                <div class="user-profile">
-                    <i class="fas fa-user-circle fa-2x" style="color: #888;"></i>
+                
+                <!-- Khối Avatar cho khách chưa đăng nhập -->
+                <div class="user-profile-dropdown" style="position: relative;">
+                    <!-- THÊM SỰ KIỆN ONCLICK VÀO ĐÂY ĐỂ BẤM LÀ MỞ -->
+                    <div class="user-profile" style="cursor: pointer; display: flex; align-items: center; gap: 8px;" onclick="var m = this.nextElementSibling; m.style.display = (m.style.display === 'block') ? 'none' : 'block';">
+                        <i class="fas fa-user-circle fa-2x" style="color: #888;"></i>
+                    </div>
+                    
+                    <!-- Menu xổ xuống -->
+                    <div class="profile-menu" style="width: 220px; padding: 20px; text-align: center; right: -10px; top: 40px; display: none; position: absolute; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 12px; z-index: 100;">
+                        <i class="fas fa-shield-alt fa-3x" style="color: #eee; margin-bottom: 10px;"></i>
+                        <p style="margin-bottom: 15px; font-size: 14px; color: #666; line-height: 1.4;">Đăng nhập để quản lý tin đăng, chat với chủ nhà và nhận thông báo.</p>
+                        
+                        <a href="/login" style="display: block; width: 100%; background: #00acc1; color: white; padding: 10px 0; border-radius: 8px; text-decoration: none; font-weight: bold; margin-bottom: 10px; box-sizing: border-box;">Đăng nhập ngay</a>
+                        <a href="/register" style="display: block; width: 100%; background: #fff; color: #ff9800; border: 1px solid #ff9800; padding: 10px 0; border-radius: 8px; text-decoration: none; font-weight: bold; box-sizing: border-box;">Tạo tài khoản mới</a>
+                    </div>
                 </div>
             {% endif %}
         </div>
